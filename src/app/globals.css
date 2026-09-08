@@ -1,26 +1,757 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0e141c;
+  --panel: #161d27;
+  --panel-hover: #1d2633;
+  --border: #2a3442;
+  --primary-text: #e6ebf2;
+  --secondary-text: #8a94a6;
+  --planning-blue: #4a8ec2;
+  --maintenance-amber: #c9893a;
+  --success-green: #3f9a6d;
+  --critical-red: #c25450;
+  --signal-violet: #7b6aad;
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-panel: var(--panel);
+  --color-panel-hover: var(--panel-hover);
+  --color-border: var(--border);
+  --color-primary-text: var(--primary-text);
+  --color-secondary-text: var(--secondary-text);
+  --color-planning-blue: var(--planning-blue);
+  --color-maintenance-amber: var(--maintenance-amber);
+  --color-success-green: var(--success-green);
+  --color-critical-red: var(--critical-red);
+  --color-signal-violet: var(--signal-violet);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-mono: var(--font-ibm-plex-mono);
+  --radius-panel: 8px;
+  --shadow-panel: var(--shadow-panel);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--primary-text);
+  font-family: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+}
+/* =========================================================
+   RAILOPT 360 INTRO SCREEN
+   ========================================================= */
+
+.railopt-intro {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.12), transparent 35%),
+    linear-gradient(180deg, #070b14 0%, #050810 100%);
+
+  color: white;
+}
+
+.intro-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+
+  background-size: 42px 42px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 25%,
+    black 75%,
+    transparent
+  );
+
+  animation: introGridMove 8s linear infinite;
+}
+
+@keyframes introGridMove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(42px);
+  }
+}
+
+.intro-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.intro-glow-one {
+  width: 430px;
+  height: 430px;
+  background: #2563eb;
+  top: -180px;
+  left: -140px;
+}
+
+.intro-glow-two {
+  width: 350px;
+  height: 350px;
+  background: #f59e0b;
+  bottom: -200px;
+  right: -100px;
+  opacity: 0.08;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: min(850px, 90vw);
+
+  text-align: center;
+
+  animation: introContentEnter 1s ease-out forwards;
+}
+
+@keyframes introContentEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* LOGO */
+
+.railopt-logo-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 150px;
+  height: 150px;
+
+  margin-bottom: 24px;
+
+  border-radius: 50%;
+
+  background: rgba(15, 23, 42, 0.6);
+
+  border: 1px solid rgba(96, 165, 250, 0.25);
+
+  box-shadow:
+    0 0 40px rgba(37, 99, 235, 0.2),
+    inset 0 0 20px rgba(37, 99, 235, 0.08);
+
+  animation: logoEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.railopt-logo-wrapper::before {
+  content: "";
+
+  position: absolute;
+  inset: -12px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(96, 165, 250, 0.12);
+
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.55) rotate(-20deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.08;
+  }
+}
+
+.railopt-logo {
+  width: 110px;
+  height: 110px;
+
+  color: #60a5fa;
+}
+
+.railopt-logo-svg {
+  width: 100%;
+  height: 100%;
+
+  filter: drop-shadow(0 0 14px rgba(96, 165, 250, 0.4));
+}
+
+/* BRAND */
+
+.intro-brand h1 {
+  margin: 0;
+
+  font-size: clamp(42px, 6vw, 72px);
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  color: #f8fafc;
+}
+
+.intro-brand h1 span {
+  color: #60a5fa;
+}
+
+.intro-description {
+  margin-top: 14px;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+
+  color: #94a3b8;
+}
+
+.intro-tagline {
+  margin-top: 10px;
+
+  font-size: 14px;
+
+  color: #64748b;
+
+  letter-spacing: 0.03em;
+}
+
+/* TRACK ANIMATION */
+
+.rail-animation {
+  margin-top: 50px;
+
+  width: min(520px, 78vw);
+}
+
+.rail-track {
+  position: relative;
+
+  width: 100%;
+  height: 20px;
+
+  overflow: hidden;
+}
+
+.rail-track::before,
+.rail-track::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+
+  background: #334155;
+}
+
+.rail-track::before {
+  top: 5px;
+}
+
+.rail-track::after {
+  bottom: 5px;
+}
+
+.rail-sleeper {
+  position: absolute;
+
+  top: 2px;
+
+  width: 3px;
+  height: 16px;
+
+  background: #475569;
+
+  transform: rotate(20deg);
+}
+
+.sleeper-1 {
+  left: 6%;
+}
+
+.sleeper-2 {
+  left: 18%;
+}
+
+.sleeper-3 {
+  left: 30%;
+}
+
+.sleeper-4 {
+  left: 42%;
+}
+
+.sleeper-5 {
+  left: 54%;
+}
+
+.sleeper-6 {
+  left: 66%;
+}
+
+.sleeper-7 {
+  left: 78%;
+}
+
+.sleeper-8 {
+  left: 90%;
+}
+
+.rail-progress {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  width: 120px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(96, 165, 250, 0.25),
+    #60a5fa,
+    transparent
+  );
+
+  filter: blur(1px);
+
+  animation: railProgress 2.2s ease-in-out infinite;
+}
+
+@keyframes railProgress {
+  from {
+    left: -130px;
+  }
+
+  to {
+    left: calc(100% + 130px);
+  }
+}
+
+/* STATUS */
+
+.intro-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-top: 25px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.18em;
+
+  color: #64748b;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #60a5fa;
+
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.8);
+
+  animation: statusPulse 1s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* FOOTER */
+
+.intro-footer {
+  position: absolute;
+
+  bottom: 25px;
+
+  font-size: 9px;
+
+  letter-spacing: 0.16em;
+
+  color: #475569;
+}
+/* =========================================================
+   RAILOPT 360 LOGIN
+   ========================================================= */
+
+.railopt-login-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.13), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.05), transparent 30%),
+    #070b14;
+
+  color: #f8fafc;
+}
+
+.login-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+}
+
+.login-shell {
+  position: relative;
+  z-index: 5;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+
+  width: min(1080px, 94vw);
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background: rgba(10, 15, 27, 0.88);
+
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+
+  backdrop-filter: blur(16px);
+
+  animation: loginEnter 0.8s ease-out;
+}
+
+@keyframes loginEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-brand-panel {
+  padding: 70px 60px;
+
+  background:
+    linear-gradient(
+      140deg,
+      rgba(37, 99, 235, 0.13),
+      rgba(15, 23, 42, 0.25)
+    );
+
+  border-right: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.login-brand-badge {
+  display: inline-flex;
+
+  padding: 8px 12px;
+
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 6px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  color: #60a5fa;
+
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.login-brand-panel h1 {
+  margin-top: 32px;
+
+  font-size: clamp(36px, 4vw, 54px);
+  line-height: 1.08;
+
+  letter-spacing: -0.025em;
+
+  color: #f8fafc;
+}
+
+.login-brand-panel p {
+  margin-top: 22px;
+
+  max-width: 520px;
+
+  color: #94a3b8;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.login-system-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 35px;
+}
+
+.login-system-flow span {
+  padding: 7px 10px;
+
+  border-radius: 4px;
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+
+  color: #64748b;
+
+  font-size: 9px;
+  letter-spacing: 0.13em;
+}
+
+.login-prototype-note {
+  margin-top: 65px;
+
+  color: #475569;
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
+}
+
+.login-card {
+  padding: 70px 55px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-card-header > p {
+  margin: 0;
+
+  color: #60a5fa;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.17em;
+}
+
+.login-card-header h2 {
+  margin-top: 12px;
+  margin-bottom: 8px;
+
+  font-size: 28px;
+
+  color: #f8fafc;
+}
+
+.login-card-header span {
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.login-card form {
+  margin-top: 38px;
+}
+
+.login-card label {
+  display: block;
+
+  margin-bottom: 22px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+
+  color: #94a3b8;
+}
+
+.login-card input {
+  width: 100%;
+
+  margin-top: 9px;
+
+  padding: 14px 15px;
+
+  border-radius: 7px;
+
+  border: 1px solid #263244;
+
+  background: #0b111d;
+
+  color: #e2e8f0;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.login-card input::placeholder {
+  color: #475569;
+}
+
+.login-card input:focus {
+  border-color: #3b82f6;
+
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.09);
+}
+
+.login-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 6px;
+  margin-bottom: 25px;
+
+  font-size: 10px;
+
+  color: #64748b;
+}
+
+.login-meta > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.login-status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.65);
+}
+
+.login-button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-weight: 700;
+  font-size: 11px;
+
+  letter-spacing: 0.11em;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.login-button:hover {
+  background: #3b82f6;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.18);
+}
+
+.login-footer-note {
+  margin-top: 25px;
+
+  text-align: center;
+
+  color: #475569;
+
+  font-size: 9px;
+
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 850px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand-panel {
+    display: none;
+  }
+
+  .login-card {
+    padding: 55px 32px;
+  }
 }

@@ -1,69 +1,114 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/login");
+    }, 4200);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <main className="railopt-intro">
+      <div className="intro-grid" />
+
+      <div className="intro-glow intro-glow-one" />
+      <div className="intro-glow intro-glow-two" />
+
+      <div className="intro-content">
+
+        {/* Logo */}
+        <div className="railopt-logo-wrapper">
+          <div className="railopt-logo">
+
+            <svg
+              viewBox="0 0 120 120"
+              xmlns="http://www.w3.org/2000/svg"
+              className="railopt-logo-svg"
+            >
+              <circle
+                cx="60"
+                cy="60"
+                r="53"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+              />
+
+              <path
+                d="M40 30H67C83 30 92 39 92 52C92 63 85 71 74 74L94 94H78L60 76H52V94H40V30Z"
+                fill="currentColor"
+              />
+
+              <path
+                d="M52 41V65H66C74 65 79 61 79 53C79 45 74 41 66 41H52Z"
+                fill="#070B14"
+              />
+
+              <path
+                d="M28 99H92"
+                stroke="#f59e0b"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+
+              <path
+                d="M38 93L32 105M50 93L46 105M70 93L74 105M82 93L88 105"
+                stroke="#f59e0b"
+                strokeWidth="2"
+              />
+            </svg>
+
+          </div>
+        </div>
+
+        {/* Brand */}
+        <div className="intro-brand">
+          <h1>
+            RAIL<span>OPT</span> 360
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="intro-description">
+            AI-Powered Railway Maintenance Optimization
+          </p>
+
+          <p className="intro-tagline">
+            One Corridor. One Intelligent Plan. Maximum Asset Availability.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Railway animation */}
+        <div className="rail-animation">
+          <div className="rail-track">
+            <div className="rail-sleeper sleeper-1" />
+            <div className="rail-sleeper sleeper-2" />
+            <div className="rail-sleeper sleeper-3" />
+            <div className="rail-sleeper sleeper-4" />
+            <div className="rail-sleeper sleeper-5" />
+            <div className="rail-sleeper sleeper-6" />
+            <div className="rail-sleeper sleeper-7" />
+            <div className="rail-sleeper sleeper-8" />
+
+            <div className="rail-progress" />
+          </div>
         </div>
-      </main>
-    </div>
+
+        <div className="intro-status">
+          <span className="status-dot" />
+          INITIALIZING PLANNING INTELLIGENCE
+        </div>
+
+      </div>
+
+      <div className="intro-footer">
+        SIH 2026 · PS 26027 · MINISTRY OF RAILWAYS
+      </div>
+    </main>
   );
 }
