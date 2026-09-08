@@ -13,7 +13,8 @@ import {
   resources,
 } from "@/data/mock-data";
 import type { MaintenanceTask } from "@/types/railway";
-
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
 type ValidationStatus = "PASS" | "REVIEW";
 
 interface ValidationCheck {
@@ -140,7 +141,7 @@ const [optimizationError, setOptimizationError] = useState<string | null>(
       required_resource_ids: task.requiredResourceIds,
     }));
 
-    const response = await fetch("http://127.0.0.1:8000/optimize", {
+    const response = await fetch(`${API_BASE_URL}/optimize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -200,7 +201,7 @@ const simulateResourceFailureAndReplan = async () => {
       required_resource_ids: task.requiredResourceIds,
     }));
 
-    const response = await fetch("http://127.0.0.1:8000/optimize", {
+    const response = await fetch(`${API_BASE_URL}/optimize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
