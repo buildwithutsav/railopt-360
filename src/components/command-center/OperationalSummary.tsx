@@ -1,4 +1,5 @@
 import { maintenanceTasks, simulationSummary } from "@/data/mock-data";
+import CorridorMap from "./CorridorMap";
 import {
   AlertTriangle,
   CalendarClock,
@@ -111,9 +112,14 @@ export function OperationalSummary() {
                 {item.detail}
               </div>
             </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+                  );
+      })}
+    </div>
+
+    <div className="mt-6 w-full">
+      <CorridorMap />
+    </div>
+  
+</section>
+);
 }

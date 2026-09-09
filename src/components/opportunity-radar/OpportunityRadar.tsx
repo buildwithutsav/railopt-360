@@ -1,4 +1,5 @@
 "use client";
+import { validateTaskCompatibility } from "@/lib/intelligence/compatibility-engine";
 
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -75,42 +76,16 @@ export function OpportunityRadar() {
       )
     : undefined;
 
-  const compatibilityChecks = [
-    {
-      label: "Same planning section",
-      detail: "All selected tasks are located within Section S2.",
-      status: "PASS",
-    },
-    {
-      label: "Spatial proximity",
-      detail: "Maintenance locations are clustered within the same work zone.",
-      status: "PASS",
-    },
-    {
-      label: "Cross-department potential",
-      detail:
-        "Engineering, Traction and S&T requirements are represented.",
-      status: "PASS",
-    },
-    {
-      label: "Resource availability",
-      detail:
-        "Required prototype resources are currently marked available.",
-      status: "PASS",
-    },
-    {
-      label: "Time-window compatibility",
-      detail:
-        "Candidate tasks can be evaluated within the same planning window.",
-      status: "PASS",
-    },
-    {
-      label: "Train interaction",
-      detail:
-        "Operational impact still requires simulation before approval.",
-      status: "REVIEW",
-    },
-  ];
+  const compatibilityResult = useMemo(() => {
+  if (opportunityTasks.length < 2) {
+    return null;
+  }
+
+  return validateTaskCompatibility(opportunityTasks);
+}, [opportunityTasks]);
+
+const compatibilityChecks =
+  compatibilityResult?.checks ?? [];
 
   return (
     <>
@@ -527,10 +502,12 @@ export function OpportunityRadar() {
 
                     <span
                       className={`font-mono text-[8px] font-semibold ${
-                        check.status === "PASS"
-                          ? "text-emerald-400"
-                          : "text-amber-400"
-                      }`}
+  check.status === "PASS"
+    ? "text-emerald-400"
+    : check.status === "FAIL"
+      ? "text-red-400"
+      : "text-amber-400"
+}`}
                     >
                       {check.status}
                     </span>
