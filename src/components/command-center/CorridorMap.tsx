@@ -1,6 +1,20 @@
 "use client";
-import RailwayGeoMap from "./RailwayGeoMap";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+const RailwayGeoMap = dynamic(
+  () => import("./RailwayGeoMap"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[520px] w-full items-center justify-center rounded-xl border border-slate-800 bg-slate-950">
+        <p className="text-sm text-slate-400">
+          Loading corridor map...
+        </p>
+      </div>
+    ),
+  }
+);
 
 type ViewMode = "map" | "table";
 
